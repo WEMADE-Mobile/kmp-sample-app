@@ -25,6 +25,8 @@ kotlin {
             implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
             implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
             implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
+            implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -36,6 +38,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(projects.shared)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

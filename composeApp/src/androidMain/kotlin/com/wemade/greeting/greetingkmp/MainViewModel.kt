@@ -18,4 +18,6 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+    val dummyData = com.wemade.greeting.greetingkmp.model.dummyData
 }

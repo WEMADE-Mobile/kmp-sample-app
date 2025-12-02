@@ -27,6 +27,7 @@ kotlin {
             implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
             implementation("io.coil-kt.coil3:coil-compose:3.0.0-alpha06")
             implementation("io.coil-kt.coil3:coil-network-ktor:3.0.0-alpha06")
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10") // 또는 최신 버전
         }
         commonMain.dependencies {
             implementation(compose.runtime)

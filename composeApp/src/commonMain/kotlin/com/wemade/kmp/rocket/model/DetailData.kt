@@ -1,8 +1,12 @@
 package com.wemade.kmp.rocket.model
 
+import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
+@Serializable
 data class DetailData(
+    val id: String,
+    val rocket: String,
     val title: String,
     val description: String,
     val createdAt: String,
@@ -17,6 +21,8 @@ data class DetailData(
 
 // TODO: 삭제 - 더미 데이터
 val dummyDetailData = DetailData(
+    id = "id_0",
+    rocket = "test_0",
     title = "Rocket 1",
     description = "Description for Rocket",
     createdAt = "2025-12-01 15:11:00",
@@ -29,5 +35,4 @@ val dummyDetailData = DetailData(
         "https://picsum.photos/id/${index + 1}/100/140"
     },
     wikipedia = "Wiki"
-
 )

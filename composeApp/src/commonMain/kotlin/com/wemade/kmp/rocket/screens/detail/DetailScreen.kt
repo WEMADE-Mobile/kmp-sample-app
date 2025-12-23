@@ -52,7 +52,7 @@ import com.wemade.kmp.rocket.theme.foreground1
 @Composable
 fun DetailScreen(
     id: String,
-    navController: NavController,
+    onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
@@ -65,7 +65,7 @@ fun DetailScreen(
             CenterAlignedTopAppBar(
                 title = { Text(text = itemData.title, style = Display) },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",

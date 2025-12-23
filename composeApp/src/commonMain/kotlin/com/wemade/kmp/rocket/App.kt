@@ -56,7 +56,9 @@ fun App() {
                             AnimatedVisibility(visible = true) {
                                 DetailScreen(
                                     id = selectedItem.id,
-                                    navController = navController,
+                                    onBack = {
+                                        navController.popBackStack()
+                                    },
                                     sharedTransitionScope = this@SharedTransitionLayout,
                                     animatedVisibilityScope = this
                                 )

@@ -1,35 +1,29 @@
 package com.wemade.kmp.rocket.screens.list
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wemade.kmp.rocket.model.ListData
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ListScreen(
-    mainViewModel: ListViewModel = koinViewModel<ListViewModel>()
+    listViewModel: ListViewModel = koinViewModel<ListViewModel>(),
+    onItemClick: (ListData) -> Unit,
 ) {
-    val greetings by mainViewModel.greetingList.collectAsStateWithLifecycle()
+    // TODO: 삭제 더미 데이터
+    val dataList = listViewModel.dummyLists
 
-    Column(
-        modifier = Modifier
-            .padding(all = 10.dp)
-            .safeContentPadding()
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        greetings.forEach { greeting ->
-            Text(greeting)
-            HorizontalDivider()
+    SharedTransitionLayout {
+        AnimatedVisibility(visible = true) {
+            ListView(
+                dataList = dataList,
+                onItemClick = onItemClick,
+                sharedTransitionScope = this@SharedTransitionLayout,
+                animatedVisibilityScope = this
+            )
         }
     }
 }

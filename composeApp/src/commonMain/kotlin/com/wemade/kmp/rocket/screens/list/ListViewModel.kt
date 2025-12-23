@@ -3,6 +3,7 @@ package com.wemade.kmp.rocket.screens.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wemade.kmp.rocket.Greeting
+import com.wemade.kmp.rocket.model.dummyData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -19,4 +20,7 @@ class ListViewModel : ViewModel() {
             }
         }
     }
+
+    val dummyLists = dummyData
+    val dummyDetail = dummyLists[0]
 }

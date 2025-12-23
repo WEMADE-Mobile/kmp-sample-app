@@ -56,7 +56,9 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(compose.materialIconsExtended)
 
+            implementation("io.coil-kt.coil3:coil-compose:3.3.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

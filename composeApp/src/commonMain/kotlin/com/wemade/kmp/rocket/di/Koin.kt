@@ -1,5 +1,7 @@
 package com.wemade.kmp.rocket.di
 
+import com.wemade.kmp.rocket.RocketRepository
+import com.wemade.kmp.rocket.repository.RocketRepositoryImpl
 import com.wemade.kmp.rocket.screens.list.ListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -20,6 +22,7 @@ val dataModule = module {
             }
         }
     }
+    single<RocketRepository> { RocketRepositoryImpl() }
 }
 
 val viewModelModule = module {

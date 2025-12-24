@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wemade.kmp.rocket.model.ListData
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -13,8 +14,7 @@ fun ListScreen(
     listViewModel: ListViewModel = koinViewModel<ListViewModel>(),
     onItemClick: (ListData) -> Unit,
 ) {
-    // TODO: 삭제 더미 데이터
-    val dataList = listViewModel.dummyLists
+    val dataList = listViewModel.launchList.collectAsStateWithLifecycle().value
 
     SharedTransitionLayout {
         AnimatedVisibility(visible = true) {

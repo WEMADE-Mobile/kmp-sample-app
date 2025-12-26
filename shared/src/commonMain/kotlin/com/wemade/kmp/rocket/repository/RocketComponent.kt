@@ -1,7 +1,8 @@
 package com.wemade.kmp.rocket.repository
 
 import com.wemade.kmp.rocket.repository.model.RocketData
-import com.wemade.kmp.rocket.repository.model.RocketLaunchData
+import com.wemade.kmp.rocket.repository.model.AllLaunchData
+import com.wemade.kmp.rocket.repository.model.LaunchData
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -20,7 +21,7 @@ class RocketComponent {
         }
     }
 
-    suspend fun getLaunchList(): List<RocketLaunchData> {
+    suspend fun getLaunchList(): List<AllLaunchData> {
         return try {
             httpClient.get("https://api.spacexdata.com/v5/launches").body()
         } catch (e: Exception) {
@@ -28,6 +29,14 @@ class RocketComponent {
         }
     }
 
+    suspend fun getLaunchDetail(id: String): LaunchData? {
+        return try {
+            httpClient.get("https://api.spacexdata.com/v5/launches/$id").body()
+        } catch (e: Exception) {
+            e.printStackTrace() // 에러 로그 확인용
+            null
+        }
+    }
     suspend fun getRocketDetail(id: String): RocketData? {
         return try {
             httpClient.get("https://api.spacexdata.com/v4/rockets/$id").body()

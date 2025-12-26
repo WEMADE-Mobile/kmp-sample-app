@@ -2,7 +2,8 @@ package com.wemade.kmp.rocket
 
 import com.wemade.kmp.rocket.model.ListData
 import com.wemade.kmp.rocket.model.DetailData
-import com.wemade.kmp.rocket.repository.model.RocketLaunchData
+import com.wemade.kmp.rocket.repository.model.AllLaunchData
+import com.wemade.kmp.rocket.repository.model.LaunchData
 import com.wemade.kmp.rocket.repository.model.RocketData
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -13,7 +14,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 
 
-fun RocketLaunchData.toDomain(): ListData = ListData(
+fun AllLaunchData.toDomain(): ListData = ListData(
     id = id,
     rocket = rocketId,
     title = name,
@@ -27,22 +28,35 @@ fun RocketData.toDetailData(): DetailData = DetailData(
     rocket = this.type,
     title = this.name,
     description = this.description,
-    createdAt = this.firstFlight, // "2018-02-06" 형태의 String 유지
-
-    // flickrImages 리스트의 첫 번째를 대표 이미지로 사용. 비어있을 경우 빈 문자열 안전 처리
+    createdAt = this.firstFlight,
     imageUrl = this.flickrImages.firstOrNull() ?: "",
-
-    isSuccessLaunched = this.active, // API의 'active' 상태를 매핑
-
+    isSuccessLaunched = this.active,
     height = this.height.meters,
     diameter = this.diameter.meters,
-
-    // RocketData의 mass.kg는 Int, DetailData는 Double이므로 형변환
     mass = this.mass.kg.toDouble(),
-
     images = this.flickrImages,
     wikipedia = this.wikipedia
 )
+
+fun mapToDetailData(launch: LaunchData, rocket: RocketData): DetailData {
+    return DetailData(
+        // 1. Launch 정보 매핑
+        id = launch.id,
+        title = launch.name,
+        createdAt = launch.dateUtc,
+        isSuccessLaunched = launch.success ?: false,
+        imageUrl = launch.links?.patch?.small ?: "",
+
+        // 2. Rocket 정보 매핑
+        rocket = rocket.name,
+        description = rocket.description,
+        height = rocket.height.meters,
+        diameter = rocket.diameter.meters,
+        mass = rocket.mass.kg.toDouble(),
+        images = rocket.flickrImages,
+        wikipedia = rocket.wikipedia
+    )
+}
 
 @OptIn(ExperimentalTime::class)
 fun String.toFormatted(timeZone: TimeZone = TimeZone.currentSystemDefault()): String {

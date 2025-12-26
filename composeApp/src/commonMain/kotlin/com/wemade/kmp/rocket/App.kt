@@ -38,7 +38,10 @@ fun App() {
                                         DetailDestination(
                                             id = data.id,
                                             imageUrl = data.imageUrl ?: "",
-                                            rocket = data.rocket
+                                            rocket = data.rocket,
+                                            title = data.title,
+                                            launchDate = data.launchDate,
+                                            isSuccessLaunched = data.isSuccessLaunched
                                         )
                                     )
                                 },
@@ -56,6 +59,9 @@ fun App() {
                                 launchId = detail.id,
                                 rocket = detail.rocket,
                                 imageUrl = detail.imageUrl,
+                                title = detail.title,
+                                launchDate = detail.launchDate,
+                                isSuccessLaunched = detail.isSuccessLaunched,
                                 onBack = {
                                     navController.popBackStack()
                                 },

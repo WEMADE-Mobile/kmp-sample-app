@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,6 +57,9 @@ fun DetailScreen(
     launchId: String,
     imageUrl: String,
     rocket: String,
+    title: String,
+    launchDate: String,
+    isSuccessLaunched: Boolean,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
@@ -71,7 +75,7 @@ fun DetailScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = detail?.title ?: "", style = Display) },
+                title = { Text(text = title, style = Display) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -146,103 +150,104 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = if (detail?.isSuccessLaunched == true) "🟢 성공" else "❌ 실패",
+                            text = if (isSuccessLaunched) "🟢 성공" else "❌ 실패",
                             style = Title,
                             color = foreground1
                         )
                     }
 
                     Text(
-                        text = "날짜 : " + detail?.createdAt,
+                        text = "날짜 : $launchDate",
                         style = BodyM,
                         color = Color.Gray
                     )
                 }
 
-                Column(
-                    modifier = Modifier,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = "로켓 정보",
-                        style = Title,
-                        color = foreground1
-                    )
-
-                    Text(
-                        text = "이름 : " + detail?.title,
-                        style = BodyM,
-                        color = foreground1
-                    )
-
-                    Text(
-                        text = "설명 : " + detail?.description,
-                        style = BodyM,
-                        color = foreground1
-                    )
-
-                    Text(
-                        text = "높이 : " + detail?.height,
-                        style = BodyM,
-                        color = foreground1
-                    )
-                    Text(
-                        text = "지름 : " + detail?.diameter,
-                        style = BodyM,
-                        color = foreground1
-                    )
-                    Text(
-                        text = "무게 : " + detail?.mass,
-                        style = BodyM,
-                        color = foreground1
-                    )
-                }
-
-                Column(
-                    modifier = Modifier,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = "이미지",
-                        style = Title,
-                        color = foreground1
-                    )
-
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    Column(
+                        modifier = Modifier,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(items = detail?.images ?: emptyList()) { image ->
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalPlatformContext.current)
-                                    .data(image)
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = "Images",
-                                modifier = Modifier
-                                    .size(width = 120.dp, height = 80.dp)
-                                    .background(Color.LightGray),
-                                contentScale = ContentScale.Crop
-                            )
+
+                        Text(
+                            text = "로켓 정보",
+                            style = Title,
+                            color = foreground1
+                        )
+
+                        Text(
+                            text = "이름 : " + detail?.title,
+                            style = BodyM,
+                            color = foreground1
+                        )
+
+                        Text(
+                            text = "설명 : " + detail?.description,
+                            style = BodyM,
+                            color = foreground1
+                        )
+
+                        Text(
+                            text = "높이 : " + detail?.height,
+                            style = BodyM,
+                            color = foreground1
+                        )
+                        Text(
+                            text = "지름 : " + detail?.diameter,
+                            style = BodyM,
+                            color = foreground1
+                        )
+                        Text(
+                            text = "무게 : " + detail?.mass,
+                            style = BodyM,
+                            color = foreground1
+                        )
+                    }
+
+                    Column(
+                        modifier = Modifier,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = "이미지",
+                            style = Title,
+                            color = foreground1
+                        )
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            items(items = detail?.images ?: emptyList()) { image ->
+                                AsyncImage(
+                                    model = ImageRequest.Builder(LocalPlatformContext.current)
+                                        .data(image)
+                                        .crossfade(true)
+                                        .build(),
+                                    contentDescription = "Images",
+                                    modifier = Modifier
+                                        .size(width = 120.dp, height = 80.dp)
+                                        .background(Color.LightGray),
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
                         }
                     }
-                }
 
-                Column(
-                    modifier = Modifier,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = "위키피디아",
-                        style = Title,
-                        color = foreground1
-                    )
+                    Column(
+                        modifier = Modifier,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = "위키피디아",
+                            style = Title,
+                            color = foreground1
+                        )
 
-                    Text(
-                        text = detail?.wikipedia ?: "",
-                        style = BodyM,
-                        color = foreground1
-                    )
-                }
+                        Text(
+                            text = detail?.wikipedia ?: "",
+                            style = BodyM,
+                            color = foreground1
+                        )
+                    }
             }
         }
     }

@@ -1,8 +1,9 @@
-rootProject.name = "GreetingKMP"
+rootProject.name = "RocketKMP"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
+        maven { url = uri("https://nexus.wemade.com/repository/maven") }
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")
@@ -17,6 +18,8 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        maven { url = uri("https://nexus.wemade.com/repository/maven") }
+        maven { url = uri("https://nexus.wemade.com/repository/android-sdk") }
         google {
             mavenContent {
                 includeGroupAndSubgroups("androidx")

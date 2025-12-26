@@ -57,3 +57,5 @@ local.properties
 
 composeApp/build
 shared/build
+
+iosApp/iosApp.xcodeproj

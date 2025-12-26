@@ -1,8 +1,10 @@
 package com.wemade.kmp.rocket.screens.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -14,6 +16,8 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ListScreen(
     listViewModel: RocketListViewModel = koinViewModel<RocketListViewModel>(),
     onItemClick: (ListData) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
     val dataList = listViewModel.state.collectAsStateWithLifecycle().value
 

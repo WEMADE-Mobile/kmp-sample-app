@@ -32,9 +32,19 @@ fun App() {
                     // 1. 리스트 화면
                     composable<ListDestination> {
                         AnimatedVisibility(visible = true) {
-                            ListScreen(onItemClick = { item ->
-                                navController.navigate(DetailDestination(id = item.id, rocket = item.rocket))
-                            })
+                            ListScreen(
+                                onItemClick = { data ->
+                                    navController.navigate(
+                                        DetailDestination(
+                                            id = data.id,
+                                            imageUrl = data.imageUrl ?: "",
+                                            rocket = data.rocket
+                                        )
+                                    )
+                                },
+                                sharedTransitionScope = this@SharedTransitionLayout,
+                                animatedVisibilityScope = this
+                            )
                         }
                     }
 
@@ -44,6 +54,8 @@ fun App() {
                         AnimatedVisibility(visible = true) {
                             DetailScreen(
                                 launchId = detail.id,
+                                rocket = detail.rocket,
+                                imageUrl = detail.imageUrl,
                                 onBack = {
                                     navController.popBackStack()
                                 },

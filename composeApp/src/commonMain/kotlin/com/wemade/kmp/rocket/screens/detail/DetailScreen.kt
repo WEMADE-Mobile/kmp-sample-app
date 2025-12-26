@@ -29,7 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,14 +41,12 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.wemade.kmp.rocket.model.dummyDetailData
 import com.wemade.kmp.rocket.theme.BodyM
 import com.wemade.kmp.rocket.theme.Display
 import com.wemade.kmp.rocket.theme.Title
 import com.wemade.kmp.rocket.theme.background2
 import com.wemade.kmp.rocket.theme.background2Inverse
 import com.wemade.kmp.rocket.theme.foreground1
-import io.ktor.http.parametersOf
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -56,30 +54,24 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun DetailScreen(
     launchId: String,
+    imageUrl: String,
+    rocket: String,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
 
     val detailViewModel: RocketDetailViewModel = koinViewModel(
-        parameters = { parametersOf(launchId) }
+        parameters = { parametersOf(launchId, rocket) }
     )
 
-    // TODO: launchId 값을 통해 API 호출 필요
-    val itemData1 = detailViewModel.state.collectAsStateWithLifecycle().value
-
-
-    LaunchedEffect(detailViewModel) {
-        detailViewModel.effect.collect { effect ->
-
-        }
-    }
-    val itemData = itemData1.detail ?: run { dummyDetailData }
+    val state by detailViewModel.state.collectAsStateWithLifecycle()
+    val detail = state.detail
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = itemData.title, style = Display) },
+                title = { Text(text = detail?.title ?: "", style = Display) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -111,16 +103,15 @@ fun DetailScreen(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(itemData.imageUrl)
+                            .data(imageUrl)
                             .crossfade(true)
                             .build(),
-                        contentDescription = itemData.description,
+                        contentDescription = detail?.description,
                         modifier = Modifier
                             .sharedElement(
-                                rememberSharedContentState(key = "image-${itemData.title}"),
+                                rememberSharedContentState(key = "image-$launchId"),
                                 animatedVisibilityScope = animatedVisibilityScope
                             )
-                            // 요청하신 크기 (100x140)
                             .width(100.dp)
                             .height(140.dp)
                             .clip(RoundedCornerShape(10.dp))
@@ -134,7 +125,6 @@ fun DetailScreen(
                 modifier = Modifier.padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-
                 Column(
                     modifier = Modifier.padding(0.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -156,14 +146,14 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = if (itemData.isSuccessLaunched) "🟢 성공" else "❌ 실패",
+                            text = if (detail?.isSuccessLaunched == true) "🟢 성공" else "❌ 실패",
                             style = Title,
                             color = foreground1
                         )
                     }
 
                     Text(
-                        text = "날짜 : " + itemData.createdAt,
+                        text = "날짜 : " + detail?.createdAt,
                         style = BodyM,
                         color = Color.Gray
                     )
@@ -173,7 +163,6 @@ fun DetailScreen(
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-
                     Text(
                         text = "로켓 정보",
                         style = Title,
@@ -181,29 +170,29 @@ fun DetailScreen(
                     )
 
                     Text(
-                        text = "이름 : " + itemData.title,
+                        text = "이름 : " + detail?.title,
                         style = BodyM,
                         color = foreground1
                     )
 
                     Text(
-                        text = "설명 : " + itemData.description,
+                        text = "설명 : " + detail?.description,
                         style = BodyM,
                         color = foreground1
                     )
 
                     Text(
-                        text = "높이 : " + itemData.height,
+                        text = "높이 : " + detail?.height,
                         style = BodyM,
                         color = foreground1
                     )
                     Text(
-                        text = "지름 : " + itemData.diameter,
+                        text = "지름 : " + detail?.diameter,
                         style = BodyM,
                         color = foreground1
                     )
                     Text(
-                        text = "무게 : " + itemData.mass,
+                        text = "무게 : " + detail?.mass,
                         style = BodyM,
                         color = foreground1
                     )
@@ -213,7 +202,6 @@ fun DetailScreen(
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-
                     Text(
                         text = "이미지",
                         style = Title,
@@ -223,7 +211,7 @@ fun DetailScreen(
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(items = itemData.images) { image ->
+                        items(items = detail?.images ?: emptyList()) { image ->
                             AsyncImage(
                                 model = ImageRequest.Builder(LocalPlatformContext.current)
                                     .data(image)
@@ -237,14 +225,12 @@ fun DetailScreen(
                             )
                         }
                     }
-
                 }
 
                 Column(
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-
                     Text(
                         text = "위키피디아",
                         style = Title,
@@ -252,7 +238,7 @@ fun DetailScreen(
                     )
 
                     Text(
-                        text = itemData.wikipedia,
+                        text = detail?.wikipedia ?: "",
                         style = BodyM,
                         color = foreground1
                     )

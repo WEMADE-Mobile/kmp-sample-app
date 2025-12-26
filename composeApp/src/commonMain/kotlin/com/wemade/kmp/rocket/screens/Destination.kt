@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 object ListDestination
 
 @Serializable
-data class DetailDestination(val id: String, val rocket: String)
+data class DetailDestination(val id: String, val rocket: String, val imageUrl: String)

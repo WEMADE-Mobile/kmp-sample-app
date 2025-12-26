@@ -8,8 +8,6 @@ interface RocketRepository {
 
     fun getLaunchList(): Flow<List<ListData>>
 
-    fun getLaunchDetail(launchId: String): Flow<ListData>
-
-    fun getRocketDetail(rocketId: String): Flow<DetailData>
+    fun getRocketLaunchDetail(launchId: String): Flow<DetailData>
 
 }

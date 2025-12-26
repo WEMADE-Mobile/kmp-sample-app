@@ -19,7 +19,7 @@ data class DetailData(
     val wikipedia: String
 )
 
-// TODO: 삭제 - 더미 데이터
+// todo : 삭제
 val dummyDetailData = DetailData(
     id = "id_0",
     rocket = "test_0",

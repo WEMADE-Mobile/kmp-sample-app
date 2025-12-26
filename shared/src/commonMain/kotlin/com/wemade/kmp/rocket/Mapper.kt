@@ -22,21 +22,6 @@ fun LaunchData.toDomain(): ListData = ListData(
     isSuccessLaunched = success ?: false // null일 경우 실패로 처리
 )
 
-fun RocketData.toDetailData(): DetailData = DetailData(
-    id = this.id,
-    rocket = this.type,
-    title = this.name,
-    description = this.description,
-    createdAt = this.firstFlight,
-    imageUrl = this.flickrImages.firstOrNull() ?: "",
-    isSuccessLaunched = this.active,
-    height = this.height.meters,
-    diameter = this.diameter.meters,
-    mass = this.mass.kg.toDouble(),
-    images = this.flickrImages,
-    wikipedia = this.wikipedia
-)
-
 fun mapToDetailData(launch: LaunchData, rocket: RocketData): DetailData {
     return DetailData(
         // 1. Launch 정보 매핑

@@ -4,7 +4,6 @@ import com.wemade.kmp.rocket.RocketRepository
 import com.wemade.kmp.rocket.mapToDetailData
 import com.wemade.kmp.rocket.model.DetailData
 import com.wemade.kmp.rocket.model.ListData
-import com.wemade.kmp.rocket.toDetailData
 import com.wemade.kmp.rocket.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

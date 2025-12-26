@@ -29,12 +29,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
@@ -46,6 +48,9 @@ import com.wemade.kmp.rocket.theme.Title
 import com.wemade.kmp.rocket.theme.background2
 import com.wemade.kmp.rocket.theme.background2Inverse
 import com.wemade.kmp.rocket.theme.foreground1
+import io.ktor.http.parametersOf
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -53,11 +58,23 @@ fun DetailScreen(
     launchId: String,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope
+    animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
 
+    val detailViewModel: RocketDetailViewModel = koinViewModel(
+        parameters = { parametersOf(launchId) }
+    )
+
     // TODO: launchId 값을 통해 API 호출 필요
-    val itemData = dummyDetailData
+    val itemData1 = detailViewModel.state.collectAsStateWithLifecycle().value
+
+
+    LaunchedEffect(detailViewModel) {
+        detailViewModel.effect.collect { effect ->
+
+        }
+    }
+    val itemData = itemData1.detail ?: run { dummyDetailData }
 
     Scaffold(
         topBar = {
@@ -208,7 +225,7 @@ fun DetailScreen(
                     ) {
                         items(items = itemData.images) { image ->
                             AsyncImage(
-                                model =  ImageRequest.Builder(LocalPlatformContext.current)
+                                model = ImageRequest.Builder(LocalPlatformContext.current)
                                     .data(image)
                                     .crossfade(true)
                                     .build(),

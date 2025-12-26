@@ -1,7 +1,6 @@
 package com.wemade.kmp.rocket.repository
 
 import com.wemade.kmp.rocket.repository.model.RocketData
-import com.wemade.kmp.rocket.repository.model.AllLaunchData
 import com.wemade.kmp.rocket.repository.model.LaunchData
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -21,7 +20,7 @@ class RocketComponent {
         }
     }
 
-    suspend fun getLaunchList(): List<AllLaunchData> {
+    suspend fun getLaunchList(): List<LaunchData> {
         return try {
             httpClient.get("https://api.spacexdata.com/v5/launches").body()
         } catch (e: Exception) {

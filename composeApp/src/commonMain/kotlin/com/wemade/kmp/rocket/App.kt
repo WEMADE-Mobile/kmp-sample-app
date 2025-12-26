@@ -15,7 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.wemade.kmp.rocket.model.dummyData
+import com.wemade.kmp.rocket.model.ListData
 import com.wemade.kmp.rocket.screens.DetailDestination
 import com.wemade.kmp.rocket.screens.ListDestination
 import com.wemade.kmp.rocket.screens.detail.DetailScreen
@@ -28,9 +28,6 @@ fun App() {
     MaterialTheme {
         Surface {
             val navController = rememberNavController()
-
-            // TODO: 삭제 더미데이터
-            val dataList = dummyData
 
             SharedTransitionLayout {
                 NavHost(
@@ -50,6 +47,7 @@ fun App() {
                     composable<DetailDestination>{ backStackEntry ->
                         val detail: DetailDestination = backStackEntry.toRoute()
 
+                        // 수정 필요
                         val selectedItem = dataList.find { it.id == detail.id }
 
                         if (selectedItem != null) {

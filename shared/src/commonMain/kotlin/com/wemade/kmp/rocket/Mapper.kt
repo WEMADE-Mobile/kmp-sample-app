@@ -2,7 +2,6 @@ package com.wemade.kmp.rocket
 
 import com.wemade.kmp.rocket.model.ListData
 import com.wemade.kmp.rocket.model.DetailData
-import com.wemade.kmp.rocket.repository.model.AllLaunchData
 import com.wemade.kmp.rocket.repository.model.LaunchData
 import com.wemade.kmp.rocket.repository.model.RocketData
 import kotlinx.datetime.Instant
@@ -14,13 +13,13 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 
 
-fun AllLaunchData.toDomain(): ListData = ListData(
+fun LaunchData.toDomain(): ListData = ListData(
     id = id,
     rocket = rocketId,
     title = name,
-    launchDate = launchDateUTC.toFormatted(),
-    imageUrl = link.patch?.small,
-    isSuccessLaunched = launchSuccess ?: false
+    launchDate = dateUtc.toFormatted(),
+    imageUrl = links?.patch?.small,
+    isSuccessLaunched = success ?: false // null일 경우 실패로 처리
 )
 
 fun RocketData.toDetailData(): DetailData = DetailData(

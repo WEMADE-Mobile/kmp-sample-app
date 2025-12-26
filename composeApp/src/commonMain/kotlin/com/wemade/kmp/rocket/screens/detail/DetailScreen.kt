@@ -163,6 +163,7 @@ fun DetailScreen(
                     )
                 }
 
+                if (state.detail != null) {
                     Column(
                         modifier = Modifier,
                         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -248,6 +249,11 @@ fun DetailScreen(
                             color = foreground1
                         )
                     }
+                } else {
+                    CircularProgressIndicator(
+                        modifier = Modifier.padding(top = 20.dp).align(Alignment.CenterHorizontally)
+                    )
+                }
             }
         }
     }

@@ -35,29 +35,28 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.wemade.kmp.rocket.theme.Display
-import com.wemade.kmp.rocket.theme.background2
-import com.wemade.kmp.rocket.theme.background2Inverse
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.wemade.kmp.rocket.model.dummyDetailData
 import com.wemade.kmp.rocket.theme.BodyM
+import com.wemade.kmp.rocket.theme.Display
 import com.wemade.kmp.rocket.theme.Title
+import com.wemade.kmp.rocket.theme.background2
+import com.wemade.kmp.rocket.theme.background2Inverse
 import com.wemade.kmp.rocket.theme.foreground1
 
 @OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    id: String,
+    launchId: String,
     onBack: () -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
-    // TODO: id 값을 통해 API 호출 필요
+    // TODO: launchId 값을 통해 API 호출 필요
     val itemData = dummyDetailData
 
     Scaffold(

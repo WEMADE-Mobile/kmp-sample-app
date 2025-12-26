@@ -1,4 +1,4 @@
-package com.wemade.greeting.greetingkmp.presentation.model
+package com.wemade.kmp.rocket.model.ui
 
 data class LaunchDetailUiModel(
     val id: String,

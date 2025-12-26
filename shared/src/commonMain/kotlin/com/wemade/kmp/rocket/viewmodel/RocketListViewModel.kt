@@ -1,9 +1,8 @@
-package com.wemade.greeting.greetingkmp.presentation.viewmodel
+package com.wemade.kmp.rocket.viewmodel
 
-import com.wemade.greeting.greetingkmp.RocketLaunch
-import com.wemade.greeting.greetingkmp.presentation.mapper.Launch
-import com.wemade.greeting.greetingkmp.presentation.mapper.toListItemUiModel
-import com.wemade.greeting.greetingkmp.presentation.model.LaunchListItemUiModel
+import com.wemade.kmp.rocket.mapper.Launch
+import com.wemade.kmp.rocket.mapper.toListItemUiModel
+import com.wemade.kmp.rocket.model.ui.LaunchListItemUiModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

@@ -1,6 +1,6 @@
-package com.wemade.greeting.greetingkmp.presentation.mapper
+package com.wemade.kmp.rocket.mapper
 
-import com.wemade.greeting.greetingkmp.presentation.model.LaunchListItemUiModel
+import com.wemade.kmp.rocket.model.ui.LaunchListItemUiModel
 
 /**
  * Domain 영역의 Launch 관련 클래스를 임시로 가정, 이후 실제 Domain의 클래스로 대체할 예정

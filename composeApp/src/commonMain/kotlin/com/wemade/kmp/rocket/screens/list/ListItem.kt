@@ -56,7 +56,7 @@ fun ListItem(
                 contentDescription = itemData.title,
                 modifier = Modifier
                     .sharedElement(
-                        rememberSharedContentState(key = "image-${itemData.title}"),
+                        rememberSharedContentState(key = "image-${itemData.id}"),
                         animatedVisibilityScope = animatedVisibilityScope
                     )
                     .width(100.dp)

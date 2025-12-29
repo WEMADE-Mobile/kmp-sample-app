@@ -60,6 +60,10 @@ fun DetailScreen(
     launchId: String,
     rocket: String,
     onBack: () -> Unit,
+    imageUrl: String,
+    title: String,
+    launchDate: String,
+    isSuccessLaunched: Boolean,
     openExternalLink: (String) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
@@ -85,7 +89,7 @@ fun DetailScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = detail?.title ?: "", style = Display) },
+                title = { Text(text = title, style = Display) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -117,7 +121,7 @@ fun DetailScreen(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(detail?.imageUrl)
+                            .data(imageUrl)
                             .crossfade(true)
                             .build(),
                         contentDescription = detail?.description,
@@ -160,14 +164,14 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = if (detail?.isSuccessLaunched == true) "🟢 성공" else "❌ 실패",
+                            text = if (isSuccessLaunched) "🟢 성공" else "❌ 실패",
                             style = BodyM,
                             color = foreground1
                         )
                     }
 
                     Text(
-                        text = "날짜 : ${detail?.createdAt}",
+                        text = "날짜 : $launchDate",
                         style = BodyM,
                         color = foreground1
                     )

@@ -6,6 +6,7 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,6 +24,7 @@ fun App() {
     MaterialTheme {
         Surface {
             val navController = rememberNavController()
+            val uriHandler = LocalUriHandler.current
 
             SharedTransitionLayout {
                 NavHost(
@@ -31,26 +33,40 @@ fun App() {
                 ) {
                     // 1. 리스트 화면
                     composable<ListDestination> {
-                        AnimatedVisibility(visible = true) {
-                            ListScreen(onItemClick = { item ->
-                                navController.navigate(DetailDestination(id = item.id, rocket = item.rocket))
-                            })
-                        }
+                        ListScreen(
+                            navigateToDetail = { data ->
+                                navController.navigate(
+                                    DetailDestination(
+                                        id = data.id,
+                                        rocket = data.rocket,
+                                        imageUrl = data.imageUrl ?: "",
+                                        title = data.title,
+                                        launchDate = data.launchDate,
+                                        isSuccessLaunched = data.isSuccessLaunched
+                                    )
+                                )
+                            },
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this
+                        )
                     }
 
                     // 2. 상세 화면
                     composable<DetailDestination> { backStackEntry ->
                         val detail: DetailDestination = backStackEntry.toRoute()
-                        AnimatedVisibility(visible = true) {
-                            DetailScreen(
-                                launchId = detail.id,
-                                onBack = {
-                                    navController.popBackStack()
-                                },
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                animatedVisibilityScope = this
-                            )
-                        }
+                        DetailScreen(
+                            launchId = detail.id,
+                            imageUrl = detail.imageUrl,
+                            title = detail.title,
+                            launchDate = detail.launchDate,
+                            isSuccessLaunched = detail.isSuccessLaunched,
+                            openExternalLink = { url -> uriHandler.openUri(url) },
+                            onBack = {
+                                navController.popBackStack()
+                            },
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this
+                        )
                     }
                 }
             }

@@ -152,7 +152,7 @@ fun DetailScreen(
 
                         Text(
                             text = if (isSuccessLaunched) "🟢 성공" else "❌ 실패",
-                            style = Title,
+                            style = BodyM,
                             color = foreground1
                         )
                     }

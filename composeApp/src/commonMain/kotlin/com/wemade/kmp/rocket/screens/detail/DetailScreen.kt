@@ -75,16 +75,6 @@ fun DetailScreen(
     val state by detailViewModel.state.collectAsStateWithLifecycle()
     val detail = state.detail
 
-    LaunchedEffect(detailViewModel) {
-        detailViewModel.effect.collect { effect ->
-            when (effect) {
-                is RocketDetailEffect.OpenExternalUrl -> {
-                    openExternalLink(effect.url)
-                }
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

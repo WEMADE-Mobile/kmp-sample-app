@@ -4,14 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wemade.kmp.rocket.RocketRepository
 import com.wemade.kmp.rocket.model.DetailData
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,8 +18,6 @@ class RocketDetailViewModel(
 ) : ViewModel() {
     private val _state = MutableStateFlow(RocketDetailState())
     val state: StateFlow<RocketDetailState> = _state.asStateFlow()
-    private val _effect = Channel<RocketDetailEffect>(Channel.BUFFERED)
-    val effect: Flow<RocketDetailEffect> = _effect.receiveAsFlow()
 
     init {
         onHandleEvent(RocketDetailEvent.LoadDetail)
@@ -31,11 +26,6 @@ class RocketDetailViewModel(
     private fun onHandleEvent(event: RocketDetailEvent) {
         when (event) {
             RocketDetailEvent.LoadDetail -> loadDetail()
-            is RocketDetailEvent.LinkClicked -> {
-                viewModelScope.launch {
-                    _effect.send(RocketDetailEffect.OpenExternalUrl(event.url))
-                }
-            }
         }
     }
 
@@ -66,9 +56,4 @@ data class RocketDetailState(
 
 sealed interface RocketDetailEvent {
     object LoadDetail : RocketDetailEvent
-    data class LinkClicked(val url: String) : RocketDetailEvent
-}
-
-sealed interface RocketDetailEffect {
-    data class OpenExternalUrl(val url: String) : RocketDetailEffect
 }

@@ -60,7 +60,7 @@ fun DetailScreen(
     launchId: String,
     rocket: String,
     onBack: () -> Unit,
-    onLinkClick: (String) -> Unit,
+    openExternalLink: (String) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
@@ -72,11 +72,11 @@ fun DetailScreen(
     val state by detailViewModel.state.collectAsStateWithLifecycle()
     val detail = state.detail
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(detailViewModel) {
         detailViewModel.effect.collect { effect ->
             when (effect) {
                 is RocketDetailEffect.OpenExternalUrl -> {
-                    onLinkClick(effect.url)
+                    openExternalLink(effect.url)
                 }
             }
         }

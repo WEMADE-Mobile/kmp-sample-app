@@ -35,7 +35,7 @@ fun App() {
                     composable<ListDestination> {
                         AnimatedVisibility(visible = true) {
                             ListScreen(
-                                onItemClick = { data ->
+                                navigateToDetail = { data ->
                                     navController.navigate(
                                         DetailDestination(
                                             id = data.id,
@@ -56,7 +56,7 @@ fun App() {
                             DetailScreen(
                                 launchId = detail.id,
                                 rocket = detail.rocket,
-                                onLinkClick = {url -> uriHandler.openUri(url) },
+                                openExternalLink = { url -> uriHandler.openUri(url) },
                                 onBack = {
                                     navController.popBackStack()
                                 },

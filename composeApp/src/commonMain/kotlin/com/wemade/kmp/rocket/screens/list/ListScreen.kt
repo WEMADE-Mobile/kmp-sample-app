@@ -15,7 +15,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ListScreen(
     listViewModel: RocketListViewModel = koinViewModel<RocketListViewModel>(),
-    onItemClick: (ListData) -> Unit,
+    navigateToDetail: (ListData) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
@@ -24,7 +24,7 @@ fun ListScreen(
     LaunchedEffect(listViewModel) {
         listViewModel.effect.collect { effect ->
             when (effect) {
-                is RocketListEffect.NavigateToDetail -> onItemClick(effect.item)
+                is RocketListEffect.NavigateToDetail -> navigateToDetail(effect.item)
             }
         }
     }
@@ -33,7 +33,13 @@ fun ListScreen(
         AnimatedVisibility(visible = true) {
             ListView(
                 dataList = dataList.items,
-                onItemClick = onItemClick,
+                onItemClick = { data ->
+                    listViewModel.sendEffect(
+                        RocketListEffect.NavigateToDetail(
+                            data
+                        )
+                    )
+                },
                 sharedTransitionScope = sharedTransitionScope,
                 animatedVisibilityScope = animatedVisibilityScope
             )

@@ -6,6 +6,7 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,6 +24,7 @@ fun App() {
     MaterialTheme {
         Surface {
             val navController = rememberNavController()
+            val uriHandler = LocalUriHandler.current
 
             SharedTransitionLayout {
                 NavHost(
@@ -62,6 +64,7 @@ fun App() {
                                 title = detail.title,
                                 launchDate = detail.launchDate,
                                 isSuccessLaunched = detail.isSuccessLaunched,
+                                onLinkClick = {url -> uriHandler.openUri(url) },
                                 onBack = {
                                     navController.popBackStack()
                                 },

@@ -31,6 +31,7 @@ class RocketDetailViewModel(
     fun onHandleEvent(event: RocketDetailEvent) {
         when (event) {
             RocketDetailEvent.LoadDetail -> loadDetail()
+            is RocketDetailEvent.LinkClicked -> openUrl(event.url)
         }
     }
 
@@ -51,6 +52,13 @@ class RocketDetailViewModel(
             }
         }
     }
+
+    private fun openUrl(url: String) {
+        if (url.isBlank()) return
+        viewModelScope.launch {
+            _effect.send(RocketDetailEffect.OpenExternalUrl(url))
+        }
+    }
 }
 
 data class RocketDetailState(
@@ -61,6 +69,7 @@ data class RocketDetailState(
 
 sealed interface RocketDetailEvent {
     object LoadDetail : RocketDetailEvent
+    data class LinkClicked(val url: String) : RocketDetailEvent
 }
 
 sealed interface RocketDetailEffect {

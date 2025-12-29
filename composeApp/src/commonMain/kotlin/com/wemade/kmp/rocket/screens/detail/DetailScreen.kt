@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +50,7 @@ import com.wemade.kmp.rocket.theme.Title
 import com.wemade.kmp.rocket.theme.background2
 import com.wemade.kmp.rocket.theme.background2Inverse
 import com.wemade.kmp.rocket.theme.foreground1
+import com.wemade.kmp.rocket.theme.link
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -61,6 +64,7 @@ fun DetailScreen(
     launchDate: String,
     isSuccessLaunched: Boolean,
     onBack: () -> Unit,
+    onLinkClick: (String) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
     animatedVisibilityScope: AnimatedVisibilityScope,
 ) {
@@ -71,6 +75,16 @@ fun DetailScreen(
 
     val state by detailViewModel.state.collectAsStateWithLifecycle()
     val detail = state.detail
+
+    LaunchedEffect(Unit) {
+        detailViewModel.effect.collect { effect ->
+            when (effect) {
+                is RocketDetailEffect.OpenExternalUrl -> {
+                    onLinkClick(effect.url)
+                }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -151,7 +165,7 @@ fun DetailScreen(
 
                         Text(
                             text = if (isSuccessLaunched) "🟢 성공" else "❌ 실패",
-                            style = Title,
+                            style = BodyM,
                             color = foreground1
                         )
                     }
@@ -159,7 +173,7 @@ fun DetailScreen(
                     Text(
                         text = "날짜 : $launchDate",
                         style = BodyM,
-                        color = Color.Gray
+                        color = foreground1
                     )
                 }
 
@@ -233,21 +247,28 @@ fun DetailScreen(
                         }
                     }
 
-                    Column(
-                        modifier = Modifier,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text(
-                            text = "위키피디아",
-                            style = Title,
-                            color = foreground1
-                        )
+                    if (!detail?.wikipedia.isNullOrBlank()) {
+                        Column(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text(
+                                text = "위키피디아",
+                                style = Title,
+                                color = foreground1
+                            )
 
-                        Text(
-                            text = detail?.wikipedia ?: "",
-                            style = BodyM,
-                            color = foreground1
-                        )
+                            Text(
+                                modifier = Modifier.clickable {
+                                    detailViewModel.onHandleEvent(
+                                        RocketDetailEvent.LinkClicked(detail.wikipedia)
+                                    )
+                                },
+                                text = detail.wikipedia,
+                                style = BodyM,
+                                color = link
+                            )
+                        }
                     }
                 } else {
                     CircularProgressIndicator(

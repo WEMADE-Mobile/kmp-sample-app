@@ -34,8 +34,8 @@ fun ListScreen(
             ListView(
                 dataList = dataList.items,
                 onItemClick = onItemClick,
-                sharedTransitionScope = this@SharedTransitionLayout,
-                animatedVisibilityScope = this
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope
             )
         }
     }

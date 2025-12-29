@@ -202,17 +202,17 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = "높이 : " + detail?.height,
+                            text = "높이 : " + detail?.height + " m",
                             style = BodyM,
                             color = foreground1
                         )
                         Text(
-                            text = "지름 : " + detail?.diameter,
+                            text = "지름 : " + detail?.diameter + " m",
                             style = BodyM,
                             color = foreground1
                         )
                         Text(
-                            text = "무게 : " + detail?.mass,
+                            text = "무게 : " + detail?.mass + " kg",
                             style = BodyM,
                             color = foreground1
                         )

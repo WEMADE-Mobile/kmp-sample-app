@@ -39,11 +39,7 @@ fun App() {
                                     navController.navigate(
                                         DetailDestination(
                                             id = data.id,
-                                            imageUrl = data.imageUrl ?: "",
                                             rocket = data.rocket,
-                                            title = data.title,
-                                            launchDate = data.launchDate,
-                                            isSuccessLaunched = data.isSuccessLaunched
                                         )
                                     )
                                 },
@@ -60,10 +56,6 @@ fun App() {
                             DetailScreen(
                                 launchId = detail.id,
                                 rocket = detail.rocket,
-                                imageUrl = detail.imageUrl,
-                                title = detail.title,
-                                launchDate = detail.launchDate,
-                                isSuccessLaunched = detail.isSuccessLaunched,
                                 onLinkClick = {url -> uriHandler.openUri(url) },
                                 onBack = {
                                     navController.popBackStack()

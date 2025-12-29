@@ -58,11 +58,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun DetailScreen(
     launchId: String,
-    imageUrl: String,
     rocket: String,
-    title: String,
-    launchDate: String,
-    isSuccessLaunched: Boolean,
     onBack: () -> Unit,
     onLinkClick: (String) -> Unit,
     sharedTransitionScope: SharedTransitionScope,
@@ -89,7 +85,7 @@ fun DetailScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = title, style = Display) },
+                title = { Text(text = detail?.title ?: "", style = Display) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -121,7 +117,7 @@ fun DetailScreen(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalPlatformContext.current)
-                            .data(imageUrl)
+                            .data(detail?.imageUrl)
                             .crossfade(true)
                             .build(),
                         contentDescription = detail?.description,
@@ -164,14 +160,14 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = if (isSuccessLaunched) "🟢 성공" else "❌ 실패",
+                            text = if (detail?.isSuccessLaunched == true) "🟢 성공" else "❌ 실패",
                             style = BodyM,
                             color = foreground1
                         )
                     }
 
                     Text(
-                        text = "날짜 : $launchDate",
+                        text = "날짜 : ${detail?.createdAt}",
                         style = BodyM,
                         color = foreground1
                     )

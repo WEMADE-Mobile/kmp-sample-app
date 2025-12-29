@@ -48,6 +48,7 @@ import com.wemade.kmp.rocket.theme.Title
 import com.wemade.kmp.rocket.theme.background2
 import com.wemade.kmp.rocket.theme.background2Inverse
 import com.wemade.kmp.rocket.theme.foreground1
+import com.wemade.kmp.rocket.theme.link
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -159,7 +160,7 @@ fun DetailScreen(
                     Text(
                         text = "날짜 : $launchDate",
                         style = BodyM,
-                        color = Color.Gray
+                        color = foreground1
                     )
                 }
 
@@ -188,17 +189,17 @@ fun DetailScreen(
                         )
 
                         Text(
-                            text = "높이 : " + detail?.height,
+                            text = "높이 : " + detail?.height + " m",
                             style = BodyM,
                             color = foreground1
                         )
                         Text(
-                            text = "지름 : " + detail?.diameter,
+                            text = "지름 : " + detail?.diameter + " m",
                             style = BodyM,
                             color = foreground1
                         )
                         Text(
-                            text = "무게 : " + detail?.mass,
+                            text = "무게 : " + detail?.mass + " kg",
                             style = BodyM,
                             color = foreground1
                         )
@@ -246,7 +247,7 @@ fun DetailScreen(
                         Text(
                             text = detail?.wikipedia ?: "",
                             style = BodyM,
-                            color = foreground1
+                            color = link
                         )
                     }
                 } else {

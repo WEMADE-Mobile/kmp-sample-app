@@ -29,20 +29,16 @@ fun ListScreen(
         }
     }
 
-    SharedTransitionLayout {
-        AnimatedVisibility(visible = true) {
-            ListView(
-                dataList = dataList.items,
-                onItemClick = { data ->
-                    listViewModel.sendEffect(
-                        RocketListEffect.NavigateToDetail(
-                            data
-                        )
-                    )
-                },
-                sharedTransitionScope = sharedTransitionScope,
-                animatedVisibilityScope = animatedVisibilityScope
+    ListView(
+        dataList = dataList.items,
+        onItemClick = { data ->
+            listViewModel.sendEffect(
+                RocketListEffect.NavigateToDetail(
+                    data
+                )
             )
-        }
-    }
+        },
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope
+    )
 }

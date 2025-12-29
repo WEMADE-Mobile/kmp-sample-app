@@ -29,9 +29,7 @@ fun ListScreen(
 
     ListView(
         dataList = dataList.items,
-        onItemClick = { data ->
-            listViewModel.onHandleEvent(RocketListEvent.ItemClicked(data))
-        },
+        onItemClick = { data -> navigateToDetail(data)},
         sharedTransitionScope = sharedTransitionScope,
         animatedVisibilityScope = animatedVisibilityScope
     )

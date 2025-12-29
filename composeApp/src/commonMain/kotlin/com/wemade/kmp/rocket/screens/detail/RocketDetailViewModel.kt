@@ -28,7 +28,7 @@ class RocketDetailViewModel(
         onHandleEvent(RocketDetailEvent.LoadDetail)
     }
 
-    fun onHandleEvent(event: RocketDetailEvent) {
+    private fun onHandleEvent(event: RocketDetailEvent) {
         when (event) {
             RocketDetailEvent.LoadDetail -> loadDetail()
             is RocketDetailEvent.LinkClicked -> {

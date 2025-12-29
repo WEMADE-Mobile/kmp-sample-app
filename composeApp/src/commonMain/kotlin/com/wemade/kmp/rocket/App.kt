@@ -56,7 +56,6 @@ fun App() {
                         val detail: DetailDestination = backStackEntry.toRoute()
                         DetailScreen(
                             launchId = detail.id,
-                            rocket = detail.rocket,
                             imageUrl = detail.imageUrl,
                             title = detail.title,
                             launchDate = detail.launchDate,

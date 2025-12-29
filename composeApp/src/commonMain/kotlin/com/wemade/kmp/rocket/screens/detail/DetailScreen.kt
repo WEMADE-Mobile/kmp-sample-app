@@ -58,7 +58,6 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun DetailScreen(
     launchId: String,
-    rocket: String,
     onBack: () -> Unit,
     imageUrl: String,
     title: String,
@@ -70,7 +69,7 @@ fun DetailScreen(
 ) {
 
     val detailViewModel: RocketDetailViewModel = koinViewModel(
-        parameters = { parametersOf(launchId, rocket) }
+        parameters = { parametersOf(launchId) }
     )
 
     val state by detailViewModel.state.collectAsStateWithLifecycle()
@@ -259,11 +258,7 @@ fun DetailScreen(
                             )
 
                             Text(
-                                modifier = Modifier.clickable {
-                                    detailViewModel.onHandleEvent(
-                                        RocketDetailEvent.LinkClicked(detail.wikipedia)
-                                    )
-                                },
+                                modifier = Modifier.clickable { openExternalLink(detail.wikipedia) },
                                 text = detail.wikipedia,
                                 style = BodyM,
                                 color = link

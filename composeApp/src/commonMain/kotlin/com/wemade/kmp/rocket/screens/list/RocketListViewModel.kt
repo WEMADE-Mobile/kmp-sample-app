@@ -26,7 +26,7 @@ class RocketListViewModel(private val repository: RocketRepository) : ViewModel(
         onHandleEvent(RocketListEvent.LoadList)
     }
 
-    fun onHandleEvent(event: RocketListEvent) {
+    private fun onHandleEvent(event: RocketListEvent) {
         when (event) {
             RocketListEvent.LoadList -> {
                 if (state.value.items.isEmpty()) {

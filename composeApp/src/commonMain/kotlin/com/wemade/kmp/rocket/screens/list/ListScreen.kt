@@ -1,9 +1,7 @@
 package com.wemade.kmp.rocket.screens.list
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,16 +27,12 @@ fun ListScreen(
         }
     }
 
-    SharedTransitionLayout {
-        AnimatedVisibility(visible = true) {
-            ListView(
-                dataList = dataList.items,
-                onItemClick = { data ->
-                    listViewModel.onHandleEvent(RocketListEvent.ItemClicked(data))
-                },
-                sharedTransitionScope = sharedTransitionScope,
-                animatedVisibilityScope = animatedVisibilityScope
-            )
-        }
-    }
+    ListView(
+        dataList = dataList.items,
+        onItemClick = { data ->
+            listViewModel.onHandleEvent(RocketListEvent.ItemClicked(data))
+        },
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope
+    )
 }

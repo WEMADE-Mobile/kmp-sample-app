@@ -33,37 +33,33 @@ fun App() {
                 ) {
                     // 1. 리스트 화면
                     composable<ListDestination> {
-                        AnimatedVisibility(visible = true) {
-                            ListScreen(
-                                navigateToDetail = { data ->
-                                    navController.navigate(
-                                        DetailDestination(
-                                            id = data.id,
-                                            rocket = data.rocket,
-                                        )
+                        ListScreen(
+                            navigateToDetail = { data ->
+                                navController.navigate(
+                                    DetailDestination(
+                                        id = data.id,
+                                        rocket = data.rocket,
                                     )
-                                },
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                animatedVisibilityScope = this
-                            )
-                        }
+                                )
+                            },
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this
+                        )
                     }
 
                     // 2. 상세 화면
                     composable<DetailDestination> { backStackEntry ->
                         val detail: DetailDestination = backStackEntry.toRoute()
-                        AnimatedVisibility(visible = true) {
-                            DetailScreen(
-                                launchId = detail.id,
-                                rocket = detail.rocket,
-                                openExternalLink = { url -> uriHandler.openUri(url) },
-                                onBack = {
-                                    navController.popBackStack()
-                                },
-                                sharedTransitionScope = this@SharedTransitionLayout,
-                                animatedVisibilityScope = this
-                            )
-                        }
+                        DetailScreen(
+                            launchId = detail.id,
+                            rocket = detail.rocket,
+                            openExternalLink = { url -> uriHandler.openUri(url) },
+                            onBack = {
+                                navController.popBackStack()
+                            },
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            animatedVisibilityScope = this
+                        )
                     }
                 }
             }

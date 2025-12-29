@@ -67,12 +67,6 @@ class RocketListViewModel(private val repository: RocketRepository) : ViewModel(
                 }
         }
     }
-
-    fun sendEffect(effect: RocketListEffect) {
-        viewModelScope.launch {
-            _effect.send(effect)
-        }
-    }
 }
 
 data class RocketListState(

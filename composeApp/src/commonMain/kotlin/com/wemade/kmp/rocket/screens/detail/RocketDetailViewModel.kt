@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wemade.kmp.rocket.RocketRepository
 import com.wemade.kmp.rocket.model.DetailData
-import com.wemade.kmp.rocket.screens.list.RocketListEffect
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +31,11 @@ class RocketDetailViewModel(
     fun onHandleEvent(event: RocketDetailEvent) {
         when (event) {
             RocketDetailEvent.LoadDetail -> loadDetail()
-            is RocketDetailEvent.LinkClicked -> sendEffect(RocketDetailEffect.OpenExternalUrl(event.url))
+            is RocketDetailEvent.LinkClicked -> {
+                viewModelScope.launch {
+                    _effect.send(RocketDetailEffect.OpenExternalUrl(event.url))
+                }
+            }
         }
     }
 
@@ -51,12 +54,6 @@ class RocketDetailViewModel(
                 _state.update { it.copy(isLoading = false, detail = detail, errorMessage = null) }
 
             }
-        }
-    }
-
-    fun sendEffect(effect: RocketDetailEffect) {
-        viewModelScope.launch {
-            _effect.send(effect)
         }
     }
 }
